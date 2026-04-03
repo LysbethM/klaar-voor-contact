@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Klaar voor contact</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #f5f0e8;
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      color: #2a2420;
+    }
+    #app {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      max-width: 480px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .logo { font-size: 3rem; color: #8b7355; margin-bottom: 1.5rem; animation: breathe 4s ease-in-out infinite; }
+    @keyframes breathe {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.08); }
+    }
+    h1 { font-family: 'Lora', serif; font-size: 1.6rem; font-weight: 600; line-height: 1.3; margin-bottom: 1rem; }
+    h2 { font-family: 'Lora', serif; font-size: 1.35rem; font-weight: 600; margin-bottom: 1rem; }
+    p { font-size: 0.95rem; color: #6b5d52; line-height: 1.65; margin-bottom: 1rem; max-width: 360px; }
+    .subtitle { font-size: 1rem; color: #6b5d52; line-height: 1.6; margin-bottom: 2.5rem; }
+
+    .card-row { display: flex; gap: 1rem; align-items: center; margin-bottom: 1.5rem; width: 100%; }
+    .person-card {
+      flex: 1; background: #fff; border: 1.5px solid #d4c5b0; border-radius: 16px;
+      padding: 1.5rem 1rem; cursor: pointer; display: flex; flex-direction: column;
+      align-items: center; gap: 0.4rem; transition: all 0.2s; font-size: 0.95rem;
+      font-weight: 500; color: #2a2420;
+    }
+    .person-card:hover { border-color: #8b7355; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(139,115,85,0.12); }
+    .person-icon { font-size: 1.8rem; }
+    .person-card small { font-size: 0.75rem; color: #9b8b7a; font-weight: 300; }
+    .divider-line { width: 1px; height: 60px; background: #d4c5b0; flex-shrink: 0; }
+    .hint { font-size: 0.8rem; color: #9b8b7a; line-height: 1.5; }
+
+    .stillness-orb {
+      width: 120px; height: 120px; border-radius: 50%;
+      background: radial-gradient(circle at 40% 40%, #e8ddd0, #c4b09a);
+      margin-bottom: 2rem; animation: breathe 5s ease-in-out infinite;
+    }
+    .stillness-orb.klaar { background: radial-gradient(circle at 40% 40%, #d4e8d0, #8bb89a); }
+
+    .primary-btn {
+      margin-top: 1.5rem; background: #2a2420; color: #f5f0e8; border: none;
+      border-radius: 40px; padding: 0.9rem 2rem; font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem; font-weight: 500; cursor: pointer; transition: all 0.2s;
+    }
+    .primary-btn:hover { background: #4a3830; transform: translateY(-1px); }
+    .primary-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .secondary-btn {
+      margin-top: 1rem; background: transparent; color: #8b7355;
+      border: 1.5px solid #c4b09a; border-radius: 40px; padding: 0.8rem 1.8rem;
+      font-family: 'DM Sans', sans-serif; font-size: 0.9rem; cursor: pointer; transition: all 0.2s;
+    }
+    .secondary-btn:hover { border-color: #8b7355; }
+
+    .progress-bar { width: 100%; height: 3px; background: #e0d5c8; border-radius: 2px; margin-bottom: 1.5rem; overflow: hidden; }
+    .progress-fill { height: 100%; background: #8b7355; border-radius: 2px; transition: width 0.4s ease; }
+    .vraag-nr { font-size: 0.75rem; color: #9b8b7a; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.75rem; }
+    .opties { display: flex; flex-direction: column; gap: 0.7rem; width: 100%; margin-bottom: 0.5rem; }
+    .optie-btn {
+      background: #fff; border: 1.5px solid #d4c5b0; border-radius: 12px;
+      padding: 0.85rem 1.1rem; font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+      color: #2a2420; cursor: pointer; text-align: left; transition: all 0.18s; line-height: 1.4;
+    }
+    .optie-btn:hover { border-color: #8b7355; background: #faf7f2; }
+    .optie-btn.gekozen { border-color: #2a2420; background: #2a2420; color: #f5f0e8; }
+
+    .emoji-large { font-size: 3rem; margin-bottom: 1.5rem; }
+    .hint-small { font-size: 0.75rem; color: #b0a090; margin-top: 0.5rem; }
+    .match-burst { font-size: 4rem; color: #8b7355; animation: pulse 2s ease-in-out infinite; margin-bottom: 1.5rem; }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.7; }
+      50% { transform: scale(1.15); opacity: 1; }
+    }
+    .match-sub { font-style: italic; font-family: 'Lora', serif; color: #8b7355; margin-top: 0.5rem; }
+
+    .share-box {
+      background: #fff; border: 1.5px solid #d4c5b0; border-radius: 12px;
+      padding: 1rem 1.2rem; margin: 1rem 0; width: 100%; text-align: left;
+    }
+    .share-box label { font-size: 0.75rem; color: #9b8b7a; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 0.4rem; }
+    .share-url { font-size: 0.8rem; color: #2a2420; word-break: break-all; font-family: monospace; }
+    .copy-btn {
+      margin-top: 0.6rem; background: #f5f0e8; border: 1px solid #d4c5b0; border-radius: 8px;
+      padding: 0.4rem 0.8rem; font-size: 0.8rem; cursor: pointer; font-family: 'DM Sans', sans-serif;
+      transition: all 0.15s;
+    }
+    .copy-btn:hover { background: #e8e0d4; }
+
+    .loading { opacity: 0.5; font-size: 0.9rem; }
+    .error-msg { color: #c0392b; font-size: 0.85rem; margin-top: 0.5rem; }
+
+    .setup-steps {
+      text-align: left; width: 100%; background: #fff;
+      border: 1.5px solid #d4c5b0; border-radius: 16px; padding: 1.5rem; margin-top: 1rem;
+    }
+    .setup-steps h3 { font-family: 'Lora', serif; font-size: 1rem; margin-bottom: 0.8rem; color: #2a2420; }
+    .setup-steps ol { padding-left: 1.2rem; }
+    .setup-steps li { font-size: 0.85rem; color: #6b5d52; line-height: 1.6; margin-bottom: 0.4rem; }
+    .setup-steps code { background: #f5f0e8; padding: 0.1rem 0.3rem; border-radius: 4px; font-size: 0.8rem; }
+
+    input[type="text"] {
+      width: 100%; border: 1.5px solid #d4c5b0; border-radius: 10px;
+      padding: 0.7rem 1rem; font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+      background: #fff; color: #2a2420; margin-bottom: 0.5rem; outline: none;
+    }
+    input[type="text"]:focus { border-color: #8b7355; }
+    .config-form { width: 100%; margin-top: 1rem; }
+    .config-form label { font-size: 0.78rem; color: #9b8b7a; text-transform: uppercase; letter-spacing: 0.04em; display: block; margin-bottom: 0.3rem; text-align: left; }
+  </style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+// ── CONFIG ─────────────────────────────────────────────────────────────────
+// Deze worden ingevuld door de gebruiker via de setup-flow, of kunnen hier
+// hard-coded worden nadat Supabase is aangemaakt.
+let SUPABASE_URL = localStorage.getItem('sb_url') || '';
+let SUPABASE_ANON_KEY = localStorage.getItem('sb_key') || '';
+
+// ── VRAGEN ─────────────────────────────────────────────────────────────────
+const VRAGEN = [
+  {
+    vraag: "Waarom wil je nu contact?",
+    opties: [
+      { tekst: "Ik voel me rustig en heb iets positiefs te delen", goed: true },
+      { tekst: "Ik mis de vertrouwdheid en voel me eenzaam", goed: false },
+      { tekst: "Ik wil weten hoe die het maakt, zonder verwachting", goed: true },
+      { tekst: "Ik voel me schuldig over hoe het is gegaan", goed: false },
+    ]
+  },
+  {
+    vraag: "Hoe voel je je op dit moment?",
+    opties: [
+      { tekst: "Stabiel — ik heb geen bevestiging nodig van de ander", goed: true },
+      { tekst: "Kwetsbaar — ik hoop dat contact me beter laat voelen", goed: false },
+      { tekst: "Nieuwsgierig, open, zonder verwachting", goed: true },
+      { tekst: "Onrustig — de stilte voelt ondraaglijk", goed: false },
+    ]
+  },
+  {
+    vraag: "Wat verwacht je van het eerste contact?",
+    opties: [
+      { tekst: "Niets bepaalds — gewoon opnieuw beginnen", goed: true },
+      { tekst: "Dat die laat merken dat die me mist", goed: false },
+      { tekst: "Een luchtig seintje dat we er weer zijn voor elkaar", goed: true },
+      { tekst: "Dat we meteen uitpraten wat er was", goed: false },
+    ]
+  },
+  {
+    vraag: "Als de ander morgen nog niet klaar is — hoe voel je je daarbij?",
+    opties: [
+      { tekst: "Dat is goed. Die heeft zijn eigen tempo nodig", goed: true },
+      { tekst: "Teleurgesteld — ik had gehoopt dat die er ook klaar voor was", goed: false },
+      { tekst: "Prima — ik ben blij dat ik het al weet voor mezelf", goed: true },
+      { tekst: "Ik vraag me af of het ooit goed komt", goed: false },
+    ]
+  }
+];
+
+// ── SUPABASE HELPERS ────────────────────────────────────────────────────────
+async function sbFetch(path, options = {}) {
+  const res = await fetch(SUPABASE_URL + path, {
+    ...options,
+    headers: {
+      'apikey': SUPABASE_ANON_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=representation',
+      ...(options.headers || {})
+    }
+  });
+  if (!res.ok) {
+    const txt = await res.text();
+    throw new Error(txt);
+  }
+  return res.json().catch(() => null);
+}
+
+async function getPair(pairId) {
+  const data = await sbFetch(`/rest/v1/pairs?pair_id=eq.${pairId}&select=*`);
+  return data && data[0];
+}
+
+async function createPair(pairId, token1, token2) {
+  return sbFetch('/rest/v1/pairs', {
+    method: 'POST',
+    body: JSON.stringify({ pair_id: pairId, token1, token2, ready1: false, ready2: false })
+  });
+}
+
+async function setReady(pairId, slot) {
+  // slot is 'ready1' or 'ready2'
+  return sbFetch(`/rest/v1/pairs?pair_id=eq.${pairId}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ [slot]: true })
+  });
+}
+
+// ── URL HELPERS ─────────────────────────────────────────────────────────────
+function getParams() {
+  const p = new URLSearchParams(window.location.search);
+  return { pair: p.get('pair'), slot: p.get('slot') };
+}
+
+function makeUrl(pair, slot) {
+  return `${location.origin}${location.pathname}?pair=${pair}&slot=${slot}`;
+}
+
+function randId(n = 10) {
+  return Math.random().toString(36).slice(2, 2 + n);
+}
+
+// ── RENDER ENGINE ──────────────────────────────────────────────────────────
+const app = document.getElementById('app');
+function render(html) { app.innerHTML = html; }
+
+// ── SCHERMEN ───────────────────────────────────────────────────────────────
+
+function showSetup() {
+  render(`
+    <div class="logo">◎</div>
+    <h1>Klaar voor contact</h1>
+    <p class="subtitle">Eerst even je Supabase-gegevens invullen zodat de app werkt. Dit doe je maar één keer.</p>
+    <div class="config-form">
+      <label>Supabase Project URL</label>
+      <input type="text" id="sb-url" placeholder="https://xxxx.supabase.co" value="${SUPABASE_URL}" />
+      <label>Supabase Anon Key</label>
+      <input type="text" id="sb-key" placeholder="eyJ..." value="${SUPABASE_ANON_KEY}" />
+    </div>
+    <button class="primary-btn" onclick="saveConfig()">Opslaan en beginnen</button>
+    <div class="setup-steps">
+      <h3>Hoe maak je een gratis Supabase-account?</h3>
+      <ol>
+        <li>Ga naar <strong>supabase.com</strong> → "Start your project" → gratis account aanmaken</li>
+        <li>Maak een nieuw project aan (naam maakt niet uit, kies een wachtwoord)</li>
+        <li>Ga naar <strong>Project Settings → API</strong></li>
+        <li>Kopieer de <strong>Project URL</strong> en de <strong>anon public</strong> key hierboven</li>
+        <li>Ga naar <strong>SQL Editor</strong> en plak dit commando:<br/>
+          <code>CREATE TABLE pairs (pair_id text primary key, token1 text, token2 text, ready1 boolean default false, ready2 boolean default false);</code>
+        </li>
+        <li>Klik op "Run" — daarna werkt de app!</li>
+      </ol>
+    </div>
+  `);
+}
+
+window.saveConfig = function() {
+  const url = document.getElementById('sb-url').value.trim().replace(/\/$/, '');
+  const key = document.getElementById('sb-key').value.trim();
+  if (!url || !key) return alert('Vul beide velden in.');
+  SUPABASE_URL = url;
+  SUPABASE_ANON_KEY = key;
+  localStorage.setItem('sb_url', url);
+  localStorage.setItem('sb_key', key);
+  showIntro();
+}
+
+function showIntro() {
+  const pairId = randId(8);
+  const t1 = randId(6);
+  const t2 = randId(6);
+  const url1 = makeUrl(pairId, 'slot1');
+  const url2 = makeUrl(pairId, 'slot2');
+
+  render(`
+    <div class="logo">◎</div>
+    <h1>Wanneer jullie er allebei klaar voor zijn</h1>
+    <p class="subtitle">Jullie zien niets van elkaar — tot jullie allebei hebben gezegd: ik ben er klaar voor.</p>
+    <div class="card-row">
+      <div class="person-card" onclick="goTo('${pairId}', 'slot1', '${url1}', '${url2}')">
+        <span class="person-icon">🌱</span>
+        <span>Jouw link</span>
+        <small>Klik hier</small>
+      </div>
+      <div class="divider-line"></div>
+      <div class="person-card" onclick="copyUrl('${url2}', this)">
+        <span class="person-icon">🌿</span>
+        <span>Link voor de ander</span>
+        <small>Klik om te kopiëren</small>
+      </div>
+    </div>
+    <p class="hint">Stuur de link van de ander door, klik dan op jouw eigen kaartje.</p>
+  `);
+}
+
+window.copyUrl = function(url, el) {
+  navigator.clipboard.writeText(url).then(() => {
+    el.querySelector('small').textContent = '✓ Gekopieerd!';
+    setTimeout(() => el.querySelector('small').textContent = 'Klik om te kopiëren', 2000);
+  });
+}
+
+window.goTo = function(pairId, slot, myUrl, otherUrl) {
+  // Navigate to our own slot URL
+  window.location.href = myUrl;
+}
+
+function showWachten(pairId, slot) {
+  render(`
+    <div class="stillness-orb"></div>
+    <h2>Je hebt ruimte voor jezelf</h2>
+    <p>Neem de tijd die je nodig hebt. Wanneer je voelt dat je er klaar voor bent, ga je door de vragen.</p>
+    <button class="primary-btn" onclick="startReflectie('${pairId}', '${slot}')">Ik denk dat ik er klaar voor ben →</button>
+  `);
+}
+
+window.startReflectie = function(pairId, slot) {
+  showReflectie(pairId, slot, 0, 0);
+}
+
+function showReflectie(pairId, slot, stap, goede) {
+  const v = VRAGEN[stap];
+  const pct = ((stap + 1) / VRAGEN.length * 100).toFixed(0);
+  render(`
+    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    <p class="vraag-nr">Vraag ${stap + 1} van ${VRAGEN.length}</p>
+    <h2>${v.vraag}</h2>
+    <div class="opties">
+      ${v.opties.map((o, i) => `<button class="optie-btn" onclick="kiesOptie(this, ${o.goed}, '${pairId}', '${slot}', ${stap}, ${goede})">${o.tekst}</button>`).join('')}
+    </div>
+  `);
+}
+
+window.kiesOptie = function(btn, isGoed, pairId, slot, stap, goede) {
+  document.querySelectorAll('.optie-btn').forEach(b => b.classList.remove('gekozen'));
+  btn.classList.add('gekozen');
+
+  const nieuweGoede = goede + (isGoed ? 1 : 0);
+  const volgendeStap = stap + 1;
+
+  // Remove old next-btn if any
+  document.querySelector('.primary-btn')?.remove();
+  const btn2 = document.createElement('button');
+  btn2.className = 'primary-btn';
+  btn2.textContent = volgendeStap < VRAGEN.length ? 'Volgende →' : 'Afronden';
+  btn2.onclick = () => {
+    if (volgendeStap < VRAGEN.length) {
+      showReflectie(pairId, slot, volgendeStap, nieuweGoede);
+    } else {
+      if (nieuweGoede >= 3) {
+        markeerKlaar(pairId, slot);
+      } else {
+        showNietKlaar(pairId, slot);
+      }
+    }
+  };
+  app.appendChild(btn2);
+}
+
+async function markeerKlaar(pairId, slot) {
+  render(`<p class="loading">Even opslaan…</p>`);
+  try {
+    // Create pair if not exists, then set ready
+    let pair = await getPair(pairId);
+    if (!pair) {
+      await createPair(pairId, '', '');
+      pair = await getPair(pairId);
+    }
+    const field = slot === 'slot1' ? 'ready1' : 'ready2';
+    await setReady(pairId, field);
+    showKlaar(pairId, slot);
+  } catch (e) {
+    render(`<h2>Er ging iets mis</h2><p>${e.message}</p><button class="secondary-btn" onclick="location.reload()">Opnieuw proberen</button>`);
+  }
+}
+
+function showNietKlaar(pairId, slot) {
+  render(`
+    <div class="emoji-large">🌧️</div>
+    <h2>Misschien nog niet helemaal</h2>
+    <p>Op basis van je antwoorden lijkt het erop dat je nog vanuit een kwetsbare plek contact zoekt — en dat is heel begrijpelijk.</p>
+    <p>Geef jezelf nog wat tijd. Je kunt het altijd opnieuw proberen.</p>
+    <button class="secondary-btn" onclick="showWachten('${pairId}', '${slot}')">Terug naar rust</button>
+  `);
+}
+
+function showKlaar(pairId, slot) {
+  render(`
+    <div class="stillness-orb klaar"></div>
+    <h2>Jij bent er klaar voor</h2>
+    <p>Goed. Je hoeft nu niets te doen — zodra de ander er ook klaar voor is, verschijnt hier een seintje.</p>
+    <p class="hint-small">Wordt automatisch bijgehouden…</p>
+  `);
+  checkMatch(pairId, slot);
+}
+
+async function checkMatch(pairId, slot) {
+  try {
+    const pair = await getPair(pairId);
+    if (pair && pair.ready1 && pair.ready2) {
+      showMatch();
+      return;
+    }
+  } catch {}
+  setTimeout(() => checkMatch(pairId, slot), 5000);
+}
+
+function showMatch() {
+  render(`
+    <div class="match-burst">✦</div>
+    <h2>Jullie zijn er allebei klaar voor</h2>
+    <p>Dit is het seintje. Jullie stonden allebei open voor contact — op jullie eigen tempo, zonder druk.</p>
+    <p class="match-sub">Neem contact op wanneer het goed voelt. Jullie hebben het verdiend.</p>
+  `);
+}
+
+// ── INIT ────────────────────────────────────────────────────────────────────
+async function init() {
+  const { pair, slot } = getParams();
+
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+    showSetup();
+    return;
+  }
+
+  if (!pair || !slot) {
+    showIntro();
+    return;
+  }
+
+  // Check if already ready
+  try {
+    const pairData = await getPair(pair);
+    const field = slot === 'slot1' ? 'ready1' : 'ready2';
+
+    if (pairData) {
+      if (pairData.ready1 && pairData.ready2) { showMatch(); return; }
+      if (pairData[field]) { showKlaar(pair, slot); return; }
+    } else {
+      // First visit: create the pair row
+      await createPair(pair, '', '');
+    }
+    showWachten(pair, slot);
+  } catch(e) {
+    showWachten(pair, slot);
+  }
+}
+
+init();
+</script>
+</body>
+</html>
